@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sri Cell World | Multi-Brand Store</title>
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #050507;
+            --card-bg: rgba(25, 25, 30, 0.65);
+            --border-glow: rgba(255, 140, 0, 0.4);
+            --accent-orange: #ff8c00;
+            --accent-blue: #0071e3;
+            --text-primary: #f5f5f7;
+            --text-secondary: #86868b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', 'SF Pro Display', -apple-system, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Cinematic Background Slideshow */
+        .bg-slideshow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: pointer;
+        }
+
+        .bg-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out, transform 6s ease-out;
+            transform: scale(1);
+        }
+
+        .bg-slide.active {
+            opacity: 0.35;
+            transform: scale(1.08);
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(5,5,7,0.7) 0%, rgba(5,5,7,0.85) 60%, rgba(5,5,7,0.98) 100%);
+            z-index: -1;
+        }
+
+        /* Container */
+        .container {
+            width: 100%;
+            max-width: 480px;
+            padding: 20px 16px 40px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            z-index: 1;
+        }
+
+        /* Top Logo Header */
+        .logo-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+            animation: fadeInDown 1s ease;
+        }
+
+        .main-logo {
+            width: 180px;
+            height: auto;
+            filter: drop-shadow(0 0 15px rgba(255, 140, 0, 0.4));
+            border-radius: 12px;
+        }
+
+        /* Glowing Proprietor Card */
+        .prop-card {
+            width: 100%;
+            padding: 14px 20px;
+            background: linear-gradient(135deg, rgba(255, 140, 0, 0.15), rgba(0, 113, 227, 0.1));
+            border: 1.5px solid var(--border-glow);
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 0 25px rgba(255, 140, 0, 0.2), inset 0 0 15px rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            animation: pulseGlow 3s infinite alternate;
+        }
+
+        .prop-card h3 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-orange);
+            font-weight: 600;
+        }
+
+        .prop-card h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-top: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Section Header */
+        .section-title {
+            width: 100%;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-secondary);
+            margin-top: 5px;
+            padding-left: 4px;
+        }
+
+        /* Action Grid / Buttons */
+        .grid-buttons {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .apple-btn {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 16px 12px;
+            border-radius: 16px;
+            color: var(--text-primary);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            backdrop-filter: blur(12px);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .apple-btn:hover, .apple-btn:active {
+            transform: translateY(-3px);
+            border-color: var(--accent-orange);
+            box-shadow: 0 8px 25px rgba(255, 140, 0, 0.25);
+        }
+
+        .apple-btn i {
+            font-size: 24px;
+            color: var(--accent-orange);
+        }
+
+        .apple-btn span {
+            font-size: 13px;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        /* Hide / Show Contact Box Style */
+        .contact-box {
+            width: 100%;
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 16px;
+            backdrop-filter: blur(12px);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .contact-toggle-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .contact-toggle-header h4 {
+            font-size: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contact-toggle-header h4 i {
+            color: var(--accent-orange);
+            font-size: 18px;
+        }
+
+        .toggle-arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .contact-content {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .contact-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 10px 14px;
+            border-radius: 10px;
+        }
+
+        .contact-number {
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .contact-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-icon-btn {
+            background: rgba(255, 140, 0, 0.15);
+            border: 1px solid rgba(255, 140, 0, 0.3);
+            color: #fff;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .action-icon-btn.wa {
+            background: rgba(37, 211, 102, 0.15);
+            border-color: rgba(37, 211, 102, 0.3);
+            color: #25d366;
+        }
+
+        .action-icon-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Review Section Items */
+        .review-card {
+            width: 100%;
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 16px;
+            backdrop-filter: blur(12px);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: 0.3s;
+        }
+
+        .review-card:hover {
+            border-color: rgba(0, 113, 227, 0.4);
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .review-header span {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .stars {
+            color: #ffc107;
+            font-size: 14px;
+        }
+
+        .review-btn {
+            background: linear-gradient(135deg, #0071e3, #005bb5);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            transition: 0.2s;
+            box-shadow: 0 4px 15px rgba(0, 113, 227, 0.3);
+        }
+
+        .review-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* Developer Footer */
+        .dev-footer {
+            width: 100%;
+            margin-top: 10px;
+            background: rgba(20, 20, 25, 0.8);
+            border: 1px solid rgba(255, 140, 0, 0.2);
+            border-radius: 16px;
+            padding: 16px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .dev-footer:hover {
+            border-color: var(--accent-orange);
+            box-shadow: 0 0 20px rgba(255, 140, 0, 0.15);
+        }
+
+        .dev-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-orange);
+        }
+
+        .dev-footer span {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .dev-footer strong {
+            font-size: 13px;
+            color: var(--text-primary);
+        }
+
+        /* Toast Notification */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: rgba(30, 30, 35, 0.95);
+            color: #fff;
+            text-align: center;
+            border-radius: 12px;
+            padding: 14px;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            border: 1px solid var(--accent-orange);
+            font-size: 13px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        #toast.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        @keyframes fadein {
+            from { bottom: 0; opacity: 0; }
+            to { bottom: 30px; opacity: 1; }
+        }
+
+        @keyframes fadeout {
+            from { bottom: 30px; opacity: 1; }
+            to { bottom: 0; opacity: 0; }
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 15px rgba(255, 140, 0, 0.15); }
+            100% { box-shadow: 0 0 30px rgba(255, 140, 0, 0.35); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Cinematic Background Sliding Images -->
+    <div class="bg-slideshow" id="slideshow">
+      <div class="bg-slide active" style="background-image: url('sricellworldlogo.webp')"></div>
+      <div class="bg-slide" style="background-image: url('IMG_0695.webp')"></div>
+      <div class="bg-slide" style="background-image: url('IMG_0665.jpg')"></div>
+      <div class="bg-slide" style="background-image: url('IMG_0574.webp')"></div>
+      <div class="bg-slide" style="background-image: url('IMG_0738.webp')"></div>
+      <div class="bg-slide" style="background-image: url('IMG_0232.webp')"></div>
+      <div class="bg-slide" style="background-image: url('IMG_0611.jpg')"></div>
+    </div>
+    <div class="bg-overlay"></div>
+
+    <div class="container">
+        <!-- Top Logo -->
+        <div class="logo-container">
+            <img src="sricellworldlogo.webp" alt="Sri Cell World Logo" class="main-logo">
+        </div>
+
+        <!-- Proprietor Badge -->
+        <div class="prop-card">
+            <h3>Proprietor</h3>
+            <h2>Golla Satish Kumar</h2>
+        </div>
+
+        <!-- Contact Section with Hide/Show -->
+        <div class="section-title">Instant Connect</div>
+        <div class="contact-box">
+            <div class="contact-toggle-header" onclick="toggleContacts()">
+                <h4><i class="fa-solid fa-phone-volume"></i> Call & WhatsApp Numbers</h4>
+                <i class="fa-solid fa-chevron-down toggle-arrow" id="toggleArrow"></i>
+            </div>
+            <div class="contact-content" id="contactContent">
+                <!-- Number 1 -->
+                <div class="contact-row">
+                    <span class="contact-number">+91 78933 32635</span>
+                    <div class="contact-actions">
+                        <a href="tel:7893332635" class="action-icon-btn" title="Call"><i class="fa-solid fa-phone"></i></a>
+                        <a href="https://wa.me/917893332635" target="_blank" class="action-icon-btn wa" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <!-- Number 2 -->
+                <div class="contact-row">
+                    <span class="contact-number">+91 98498 36553</span>
+                    <div class="contact-actions">
+                        <a href="tel:9849836553" class="action-icon-btn" title="Call"><i class="fa-solid fa-phone"></i></a>
+                        <a href="https://wa.me/919849836553" target="_blank" class="action-icon-btn wa" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Grid Links -->
+        <div class="section-title">Explore & Navigate</div>
+        <div class="grid-buttons">
+            <!-- Instagram -->
+            <a href="https://www.instagram.com/sricellword_khammam?stkn=MWYxeDRpcDJmMWxqMQ%3D%3D&utm_source=qr" target="_blank" class="apple-btn full-width">
+                <i class="fa-brands fa-instagram" style="color: #e1306c;"></i>
+                <span>Instagram Profile</span>
+            </a>
+
+            <!-- Map 1 -->
+            <a href="https://www.google.com/maps?cid=14234551940312346261" target="_blank" class="apple-btn">
+                <i class="fa-solid fa-location-dot" style="color: #ff3b30;"></i>
+                <span>First Bus Stand Branch</span>
+            </a>
+
+            <!-- Map 2 -->
+            <a href="https://www.google.com/maps?cid=15804449356547134718" target="_blank" class="apple-btn">
+                <i class="fa-solid fa-store" style="color: #34c759;"></i>
+                <span>Gandhi Chowk Branch</span>
+            </a>
+        </div>
+
+        <!-- 5-Star Review Section -->
+        <div class="section-title">Rate Us (5 Stars)</div>
+        
+        <!-- Review Shop 1 -->
+        <div class="review-card">
+            <div class="review-header">
+                <span>Sri Cell World (Bus Stand)</span>
+                <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            </div>
+            <button class="review-btn" onclick="handleReview('https://search.google.com/local/reviews?placeid=ChIJuwdnQvZZNDoRlS4qY5JJi8U&q=Sri+cell+world,+Municipal+Office+Road,+Bus+Stand,+Lenin+Nagar,+Braman+Bazar,+Balaji+Nagar,+Khammam,+Telangana&authuser=0&hl=en&gl=IN')">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Copy Comment & Rate 5★
+            </button>
+        </div>
+
+        <!-- Review Shop 2 -->
+        <div class="review-card">
+            <div class="review-header">
+                <span>Mi Store (Gandhi Chowk)</span>
+                <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            </div>
+            <button class="review-btn" onclick="handleReview('https://search.google.com/local/reviews?placeid=ChIJny00vQZZNDoR_pSkR_SuVNs&q=Mi+Store,+Gandhi+Chowk,+Khammam&authuser=0&hl=en&gl=IN')">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Copy Comment & Rate 5★
+            </button>
+        </div>
+
+        <!-- Developer Credit Footer -->
+        <a href="https://catb12345612-ai.github.io/Syed-Zeeshaan-Ali-High-Fledged-Engineering-And-Digital-Tech-Solutions-Site/" target="_blank" class="dev-footer">
+            <img src="dev-logo.png (1).jpg" alt="Developer Logo" class="dev-logo">
+            <div>
+                <span>Designed & Developed by</span><br>
+                <strong>syedzeeshaanali07</strong>
+            </div>
+        </a>
+    </div>
+
+    <!-- Toast Notification Popup -->
+    <div id="toast">Comment copied! Redirecting to Google Review...</div>
+
+    <script>
+        // Background Slideshow Logic
+        const slides = document.querySelectorAll('.bg-slide');
+        let currentSlide = 0;
+        function nextSlide() {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+        setInterval(nextSlide, 4500);
+
+        // Hide / Show Contact Toggle Functionality
+        function toggleContacts() {
+            const content = document.getElementById('contactContent');
+            const arrow = document.getElementById('toggleArrow');
+            if (content.style.display === 'flex') {
+                content.style.display = 'none';
+                arrow.style.transform = 'rotate(0deg)';
+            } else {
+                content.style.display = 'flex';
+                arrow.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        // Random Review Comment Generator and Copier
+        const reviewComments = [
+            "Best multi-brand mobile store in Khammam! Excellent customer service, original products, and very friendly staff. Highly recommended! ⭐⭐⭐⭐⭐",
+            "Superb experience buying my new phone here. Genuine prices and great support by Golla Satish Kumar garu and team! 🌟🌟🌟🌟🌟",
+            "Trusted shop for all mobile needs since years. Amazing collection of accessories and top-notch service! Highly satisfied. 📱🔥",
+            "Awesome store ambience and best discounts offered in Khammam. Always my go-to place for electronics and smartphones! 👍✨"
+        ];
+
+        function handleReview(reviewUrl) {
+            const randomIndex = Math.floor(Math.random() * reviewComments.length);
+            const selectedComment = reviewComments[randomIndex];
+
+            // Copy to clipboard
+            navigator.clipboard.writeText(selectedComment).then(() => {
+                showToast();
+                setTimeout(() => {
+                    window.open(reviewUrl, '_blank');
+                }, 1200);
+            }).catch(err => {
+                // Fallback method
+                console.error('Clipboard error: ', err);
+                window.open(reviewUrl, '_blank');
+            });
+        }
+
+        function showToast() {
+            const toast = document.getElementById("toast");
+            toast.className = "show";
+            setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
+        }
+    </script>
+</body>
+</html>
