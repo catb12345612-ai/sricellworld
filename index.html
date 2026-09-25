@@ -9,61 +9,75 @@
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
         
         body { 
             font-family: 'Poppins', sans-serif; 
-            background-color: #0f172a; /* Fallback */
+            background-color: #1e1025; /* Fallback */
+            -webkit-font-smoothing: antialiased;
         }
         
         /* Slider Styles */
-        .slide { transition: opacity 1.2s ease-in-out; opacity: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
-        .slide.active { opacity: 1; z-index: 10; }
-        .slider-container { position: relative; width: 100%; height: 420px; overflow: hidden; border-radius: 1.5rem; }
+        .slide { transition: opacity 1.5s ease-in-out, transform 3s ease-in-out; opacity: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.05); }
+        .slide.active { opacity: 1; z-index: 10; transform: scale(1); }
+        .slider-container { position: relative; width: 100%; height: 420px; overflow: hidden; border-radius: 1.8rem; }
         
         .hidden-contact { display: none; }
         
-        /* Glassmorphism utility */
+        /* Premium Glassmorphism utility */
         .glass-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
         }
 
-        /* Custom Toast Notification */
+        /* Custom Toast Notification - Warm gradient */
         #toast {
-            visibility: hidden; min-width: 250px; background: linear-gradient(to right, #00b4db, #0083b0); color: #fff; 
-            text-align: center; border-radius: 12px; padding: 16px; position: fixed; z-index: 50; 
-            left: 50%; bottom: 40px; transform: translateX(-50%); font-size: 15px; font-weight: 600;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            visibility: hidden; min-width: 250px; background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%); color: #fff; 
+            text-align: center; border-radius: 50px; padding: 16px 24px; position: fixed; z-index: 50; 
+            left: 50%; bottom: 40px; transform: translateX(-50%); font-size: 15px; font-weight: 500;
+            box-shadow: 0 10px 30px rgba(255, 117, 140, 0.4);
         }
-        #toast.show { visibility: visible; animation: popIn 0.5s, fadeout 0.5s 3.5s; }
-        @keyframes popIn { 0% { bottom: 0; opacity: 0; transform: translateX(-50%) scale(0.8); } 100% { bottom: 40px; opacity: 1; transform: translateX(-50%) scale(1); } }
+        #toast.show { visibility: visible; animation: popIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55), fadeout 0.5s 3.5s forwards; }
+        @keyframes popIn { 0% { bottom: 0; opacity: 0; transform: translateX(-50%) scale(0.5); } 100% { bottom: 40px; opacity: 1; transform: translateX(-50%) scale(1); } }
         @keyframes fadeout { from { bottom: 40px; opacity: 1; } to { bottom: 0; opacity: 0; } }
+
+        /* Heartbeat Animation for Prop */
+        .heartbeat { animation: heartbeat 2s infinite; }
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.2); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.2); }
+            70% { transform: scale(1); }
+        }
     </style>
 </head>
-<body class="text-white pb-12 bg-gradient-to-br from-indigo-950 via-slate-900 to-black min-h-screen">
+<body class="text-white pb-12 bg-gradient-to-br from-[#2a0845] via-[#6441A5] to-[#1e1025] min-h-screen relative overflow-x-hidden">
+
+    <!-- Soft Background Glowing Orbs -->
+    <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-pink-500/20 rounded-full blur-[100px] pointer-events-none"></div>
+    <div class="absolute bottom-[20%] right-[-10%] w-96 h-96 bg-purple-500/20 rounded-full blur-[100px] pointer-events-none"></div>
 
     <!-- Header Section -->
-    <header class="text-center pt-10 pb-6 px-4">
-        <!-- Enlarged Logo in a premium white capsule -->
-        <div class="bg-white p-4 rounded-3xl inline-block shadow-[0_0_30px_rgba(59,130,246,0.3)] mb-4">
-            <img src="sricellworldlogo.webp" alt="Sri Cell World Logo" class="mx-auto h-32 md:h-40 object-contain">
+    <header class="text-center pt-14 pb-8 px-4 relative z-10">
+        <!-- Floating Logo in a soft glass capsule -->
+        <div class="bg-white/10 backdrop-blur-xl p-5 rounded-[2.5rem] inline-block shadow-[0_10px_40px_rgba(255,117,140,0.15)] mb-2 border border-white/20 transition-transform duration-500 hover:scale-105 group cursor-pointer">
+            <img src="sricellworldlogo.webp" alt="Sri Cell World Logo" class="mx-auto h-32 md:h-40 object-contain drop-shadow-2xl group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.5)] transition-all duration-500">
         </div>
-        <h1 class="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 tracking-wide mt-2">
-            SRI CELL WORLD
-        </h1>
-        <p class="text-gray-400 font-medium tracking-widest uppercase text-sm mt-2 flex items-center justify-center gap-2">
-            <i class="fa-solid fa-user-tie text-cyan-500"></i> Prop: Golla Satish Kumar
+        
+        <p class="text-pink-100 font-medium tracking-widest uppercase text-sm mt-5 flex items-center justify-center gap-2 opacity-90">
+            <i class="fa-solid fa-heart text-pink-400 heartbeat"></i> Prop: Golla Satish Kumar
         </p>
     </header>
 
-    <main class="max-w-md mx-auto px-5">
+    <main class="max-w-md mx-auto px-5 relative z-10">
         
-        <!-- Image Slider with glowing border -->
-        <div class="relative rounded-3xl p-1 bg-gradient-to-r from-cyan-500 to-blue-600 shadow-[0_0_20px_rgba(6,182,212,0.4)] mb-8">
-            <div class="slider-container bg-gray-900">
+        <!-- Image Slider with soft elegant border -->
+        <div class="relative rounded-[2rem] p-1.5 bg-gradient-to-tr from-pink-400 via-purple-400 to-indigo-400 shadow-[0_15px_40px_rgba(236,72,153,0.25)] mb-10 transform transition hover:-translate-y-1 duration-500">
+            <div class="slider-container bg-gray-900 rounded-[1.7rem]">
                 <img src="IMG_0695.webp" class="slide active" alt="Slide 1">
                 <img src="IMG_0665.webp" class="slide" alt="Slide 2">
                 <img src="IMG_0574.webp" class="slide" alt="Slide 3">
@@ -73,79 +87,84 @@
             </div>
         </div>
 
-        <!-- Contact Section (Glassmorphism) -->
-        <div class="glass-card p-6 rounded-3xl shadow-xl text-center mb-6">
-            <h2 class="text-xl font-semibold mb-4 text-gray-100 flex items-center justify-center gap-2">
-                <i class="fa-solid fa-headset text-cyan-400"></i> Get In Touch
+        <!-- Contact Section -->
+        <div class="glass-card p-8 rounded-[2rem] text-center mb-8 relative overflow-hidden">
+            <h2 class="text-2xl font-semibold mb-6 text-pink-50 flex items-center justify-center gap-3">
+                <i class="fa-solid fa-envelope-open-text text-pink-300"></i> We'd Love to Hear From You
             </h2>
-            <button onclick="toggleContacts()" class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-3 rounded-2xl font-bold shadow-lg hover:shadow-cyan-500/50 hover:scale-[1.02] transition-all duration-300">
-                Tap to View Contact Numbers
+            <button onclick="toggleContacts()" class="w-full bg-gradient-to-r from-pink-500 to-rose-400 text-white px-6 py-4 rounded-2xl font-semibold text-lg shadow-[0_8px_20px_rgba(244,63,94,0.3)] hover:shadow-[0_8px_25px_rgba(244,63,94,0.5)] hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3">
+                <i class="fa-solid fa-phone-volume"></i> Tap to View Connect Details
             </button>
             
-            <div id="contact-list" class="hidden-contact mt-5 space-y-3">
+            <div id="contact-list" class="hidden-contact mt-6 space-y-4 text-left">
                 <!-- Number 1 -->
-                <div class="flex items-center justify-between bg-white/10 p-4 rounded-2xl border border-white/5 hover:bg-white/20 transition">
-                    <span class="font-bold text-xl tracking-wider">7893332635</span>
-                    <div class="space-x-4">
-                        <a href="tel:7893332635" class="bg-blue-500/20 p-3 rounded-full text-blue-400 hover:text-white hover:bg-blue-500 transition shadow-lg"><i class="fa-solid fa-phone"></i></a>
-                        <a href="https://wa.me/917893332635" target="_blank" class="bg-green-500/20 p-3 rounded-full text-green-400 hover:text-white hover:bg-green-500 transition shadow-lg"><i class="fa-brands fa-whatsapp text-lg"></i></a>
+                <div class="flex items-center justify-between bg-white/5 p-4 rounded-2xl border border-white/10 hover:bg-white/10 transition duration-300 group">
+                    <span class="font-medium text-xl tracking-wider text-pink-50 group-hover:text-white transition">7893332635</span>
+                    <div class="space-x-3">
+                        <a href="tel:7893332635" class="inline-flex items-center justify-center w-12 h-12 bg-white/10 rounded-full text-white hover:bg-pink-500 transition shadow-lg"><i class="fa-solid fa-phone"></i></a>
+                        <a href="https://wa.me/917893332635" target="_blank" class="inline-flex items-center justify-center w-12 h-12 bg-green-500/20 rounded-full text-green-300 hover:text-white hover:bg-green-500 transition shadow-lg"><i class="fa-brands fa-whatsapp text-xl"></i></a>
                     </div>
                 </div>
                 <!-- Number 2 -->
-                <div class="flex items-center justify-between bg-white/10 p-4 rounded-2xl border border-white/5 hover:bg-white/20 transition">
-                    <span class="font-bold text-xl tracking-wider">9849836553</span>
-                    <div class="space-x-4">
-                        <a href="tel:9849836553" class="bg-blue-500/20 p-3 rounded-full text-blue-400 hover:text-white hover:bg-blue-500 transition shadow-lg"><i class="fa-solid fa-phone"></i></a>
-                        <a href="https://wa.me/919849836553" target="_blank" class="bg-green-500/20 p-3 rounded-full text-green-400 hover:text-white hover:bg-green-500 transition shadow-lg"><i class="fa-brands fa-whatsapp text-lg"></i></a>
+                <div class="flex items-center justify-between bg-white/5 p-4 rounded-2xl border border-white/10 hover:bg-white/10 transition duration-300 group">
+                    <span class="font-medium text-xl tracking-wider text-pink-50 group-hover:text-white transition">9849836553</span>
+                    <div class="space-x-3">
+                        <a href="tel:9849836553" class="inline-flex items-center justify-center w-12 h-12 bg-white/10 rounded-full text-white hover:bg-pink-500 transition shadow-lg"><i class="fa-solid fa-phone"></i></a>
+                        <a href="https://wa.me/919849836553" target="_blank" class="inline-flex items-center justify-center w-12 h-12 bg-green-500/20 rounded-full text-green-300 hover:text-white hover:bg-green-500 transition shadow-lg"><i class="fa-brands fa-whatsapp text-xl"></i></a>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Links & Locations -->
-        <div class="grid grid-cols-1 gap-4 mb-8">
-            <a href="https://www.instagram.com/sricellword_khammam?stkn=MWYxeDRpcDJmMWxqMQ%3D%3D&utm_source=qr" target="_blank" class="group flex items-center justify-center bg-gradient-to-r from-[#f09433] via-[#dc2743] to-[#bc1888] text-white p-4 rounded-2xl shadow-lg hover:shadow-pink-500/50 hover:scale-[1.02] transition-all duration-300 font-semibold">
-                <i class="fa-brands fa-instagram text-2xl mr-3 group-hover:animate-bounce"></i> Follow on Instagram
+        <div class="grid grid-cols-1 gap-4 mb-10">
+            <a href="https://www.instagram.com/sricellword_khammam?stkn=MWYxeDRpcDJmMWxqMQ%3D%3D&utm_source=qr" target="_blank" class="group flex items-center justify-center bg-gradient-to-r from-[#f09433] via-[#dc2743] to-[#bc1888] text-white p-4 rounded-2xl shadow-[0_8px_20px_rgba(220,39,67,0.3)] hover:shadow-[0_8px_25px_rgba(220,39,67,0.5)] hover:-translate-y-1 transition-all duration-300 font-medium text-lg">
+                <i class="fa-brands fa-instagram text-2xl mr-3 group-hover:scale-125 transition-transform duration-300"></i> Follow Our Journey
             </a>
             
-            <a href="https://www.google.com/maps?cid=14234551940312346261" target="_blank" class="flex items-center justify-center glass-card text-blue-300 p-4 rounded-2xl shadow-lg hover:bg-blue-900/40 hover:scale-[1.02] transition-all duration-300 font-semibold">
-                <i class="fa-solid fa-location-dot text-xl mr-3 text-blue-500"></i> Sri Cell World (Bus Stand)
+            <a href="https://www.google.com/maps?cid=14234551940312346261" target="_blank" class="flex items-center justify-center glass-card text-blue-100 p-4 rounded-2xl shadow-lg hover:bg-white/10 hover:-translate-y-1 transition-all duration-300 font-medium text-lg border-l-4 border-l-blue-400">
+                <i class="fa-solid fa-location-dot text-xl mr-3 text-blue-300"></i> Sri Cell World (Bus Stand)
             </a>
             
-            <a href="https://www.google.com/maps?cid=15804449356547134718" target="_blank" class="flex items-center justify-center glass-card text-orange-300 p-4 rounded-2xl shadow-lg hover:bg-orange-900/40 hover:scale-[1.02] transition-all duration-300 font-semibold">
-                <i class="fa-solid fa-store text-xl mr-3 text-orange-500"></i> Mi Store (Gandhi Chowk)
+            <a href="https://www.google.com/maps?cid=15804449356547134718" target="_blank" class="flex items-center justify-center glass-card text-orange-100 p-4 rounded-2xl shadow-lg hover:bg-white/10 hover:-translate-y-1 transition-all duration-300 font-medium text-lg border-l-4 border-l-orange-400">
+                <i class="fa-solid fa-store text-xl mr-3 text-orange-300"></i> Mi Store (Gandhi Chowk)
             </a>
         </div>
 
-        <!-- Review Section -->
-        <div class="relative p-1 rounded-3xl bg-gradient-to-br from-yellow-400 to-orange-500 shadow-[0_0_25px_rgba(234,179,8,0.3)] mb-10">
-            <div class="bg-gray-900 p-6 rounded-3xl text-center h-full">
-                <h2 class="text-2xl font-bold mb-2 text-yellow-400">Leave a 5-Star Review! <i class="fa-solid fa-star text-yellow-500"></i></h2>
-                <p class="text-sm text-gray-400 mb-6">Tap below to auto-copy a 5-star comment and jump to the review page.</p>
+        <!-- Review Section (Heart Touching Theme) -->
+        <div class="relative p-1 rounded-[2rem] bg-gradient-to-br from-amber-200 via-orange-300 to-rose-400 shadow-[0_10px_30px_rgba(251,191,36,0.2)] mb-12 transform transition hover:scale-[1.01] duration-500">
+            <div class="bg-[#1e1025]/90 backdrop-blur-md p-8 rounded-[1.8rem] text-center h-full">
+                <div class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-amber-400/20 text-amber-400 mb-4">
+                    <i class="fa-solid fa-star text-2xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold mb-3 text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-orange-400">Share Your Love!</h2>
+                <p class="text-sm text-gray-300 mb-8 leading-relaxed">Your support means the world to us. Tap below to copy a beautiful review and share your experience.</p>
                 
                 <div class="space-y-4">
-                    <button onclick="leaveReview('https://search.google.com/local/reviews?placeid=ChIJuwdnQvZZNDoRlS4qY5JJi8U&q=Sri+cell+world,+Municipal+Office+Road,+Bus+Stand,+Lenin+Nagar,+Braman+Bazar,+Balaji+Nagar,+Khammam,+Telangana&authuser=0&hl=en&gl=IN')" class="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 text-gray-900 font-extrabold text-lg py-3 px-4 rounded-2xl shadow-lg hover:shadow-yellow-500/50 hover:scale-[1.02] transition-all duration-300 flex items-center justify-center">
-                        <i class="fa-brands fa-google mr-2 bg-white rounded-full p-1 text-sm"></i> Sri Cell World
+                    <button onclick="leaveReview('https://search.google.com/local/reviews?placeid=ChIJuwdnQvZZNDoRlS4qY5JJi8U&q=Sri+cell+world,+Municipal+Office+Road,+Bus+Stand,+Lenin+Nagar,+Braman+Bazar,+Balaji+Nagar,+Khammam,+Telangana&authuser=0&hl=en&gl=IN')" class="w-full bg-white text-gray-900 font-bold text-lg py-3.5 px-4 rounded-2xl shadow-lg hover:bg-gray-50 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google" class="w-5 h-5"> Review Sri Cell World
                     </button>
                     
-                    <button onclick="leaveReview('https://search.google.com/local/reviews?placeid=ChIJny00vQZZNDoR_pSkR_SuVNs&q=Mi+Store,+Gandhi+Chowk,+Khammam&authuser=0&hl=en&gl=IN')" class="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold text-lg py-3 px-4 rounded-2xl shadow-lg hover:shadow-orange-500/50 hover:scale-[1.02] transition-all duration-300 flex items-center justify-center">
-                        <i class="fa-brands fa-google mr-2 bg-white text-orange-500 rounded-full p-1 text-sm"></i> Mi Store
+                    <button onclick="leaveReview('https://search.google.com/local/reviews?placeid=ChIJny00vQZZNDoR_pSkR_SuVNs&q=Mi+Store,+Gandhi+Chowk,+Khammam&authuser=0&hl=en&gl=IN')" class="w-full bg-white/10 border border-white/20 text-white font-bold text-lg py-3.5 px-4 rounded-2xl shadow-lg hover:bg-white/20 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google" class="w-5 h-5 opacity-90"> Review Mi Store
                     </button>
                 </div>
             </div>
         </div>
 
         <!-- Developer Footer -->
-        <footer class="mt-14 text-center pb-8 border-t border-white/10 pt-8">
-            <p class="text-xs text-gray-500 tracking-widest uppercase mb-4">Digitally Crafted By</p>
-            <a href="https://catb12345612-ai.github.io/Syed-Zeeshaan-Ali-High-Fledged-Engineering-And-Digital-Tech-Solutions-Site/" target="_blank" class="inline-block hover:scale-110 transition transform duration-500">
-                <img src="dev-logo.png (1).png" alt="Developer Logo" class="h-24 w-24 mx-auto rounded-full shadow-[0_0_20px_rgba(255,255,255,0.2)] border-2 border-gray-700 hover:border-cyan-400 hover:shadow-[0_0_30px_rgba(6,182,212,0.6)] object-cover">
+        <footer class="mt-16 text-center pb-8 border-t border-white/10 pt-10">
+            <p class="text-xs text-pink-200/60 tracking-widest uppercase mb-6 flex items-center justify-center gap-2">
+                Crafted with <i class="fa-solid fa-heart text-pink-500"></i> By
+            </p>
+            <a href="https://catb12345612-ai.github.io/Syed-Zeeshaan-Ali-High-Fledged-Engineering-And-Digital-Tech-Solutions-Site/" target="_blank" class="inline-block hover:-translate-y-2 transition transform duration-500 group">
+                <img src="dev-logo.png (1).png" alt="Developer Logo" class="h-24 w-24 mx-auto rounded-full shadow-[0_0_20px_rgba(255,255,255,0.1)] border-2 border-white/20 group-hover:border-pink-400 group-hover:shadow-[0_0_30px_rgba(255,117,140,0.5)] object-cover transition-all duration-500">
             </a>
         </footer>
     </main>
 
     <!-- Toast Notification -->
-    <div id="toast"><i class="fa-solid fa-circle-check mr-2 text-green-300"></i> Awesome review copied! Paste it in Google.</div>
+    <div id="toast"><i class="fa-solid fa-heart mr-2 text-white"></i> Beautiful review copied! Paste it in Google.</div>
 
     <script>
         // --- Slider Logic ---
@@ -160,16 +179,17 @@
         // Change slide every 6 seconds
         setInterval(nextSlide, 6000); 
 
-
         // --- Toggle Contacts Logic ---
         function toggleContacts() {
             const contactList = document.getElementById('contact-list');
             if (contactList.style.display === 'none' || contactList.style.display === '') {
                 contactList.style.display = 'block';
-                // Small animation effect
-                contactList.animate([{opacity: 0, transform: 'translateY(-10px)'}, {opacity: 1, transform: 'translateY(0)'}], {duration: 300, fill: 'forwards'});
+                // Soft elegant animation
+                contactList.animate([{opacity: 0, transform: 'translateY(-15px)'}, {opacity: 1, transform: 'translateY(0)'}], {duration: 400, easing: 'ease-out', fill: 'forwards'});
             } else {
-                contactList.style.display = 'none';
+                contactList.animate([{opacity: 1, transform: 'translateY(0)'}, {opacity: 0, transform: 'translateY(-10px)'}], {duration: 300, easing: 'ease-in', fill: 'forwards'}).onfinish = () => {
+                    contactList.style.display = 'none';
+                };
             }
         }
 
