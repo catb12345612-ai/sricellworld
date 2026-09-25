@@ -3,115 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sri Cell World</title>
+    <title>Sri Cell World | Premium Store</title>
     <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f3f4f6; }
-        .slide { transition: opacity 1s ease-in-out; opacity: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background-color: #0f172a; /* Fallback */
+        }
+        
+        /* Slider Styles */
+        .slide { transition: opacity 1.2s ease-in-out; opacity: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
         .slide.active { opacity: 1; z-index: 10; }
-        .slider-container { position: relative; width: 100%; height: 400px; overflow: hidden; border-radius: 0.75rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .slider-container { position: relative; width: 100%; height: 420px; overflow: hidden; border-radius: 1.5rem; }
+        
         .hidden-contact { display: none; }
         
+        /* Glassmorphism utility */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
         /* Custom Toast Notification */
         #toast {
-            visibility: hidden; min-width: 250px; background-color: #333; color: #fff; text-align: center; border-radius: 8px;
-            padding: 16px; position: fixed; z-index: 50; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 15px;
+            visibility: hidden; min-width: 250px; background: linear-gradient(to right, #00b4db, #0083b0); color: #fff; 
+            text-align: center; border-radius: 12px; padding: 16px; position: fixed; z-index: 50; 
+            left: 50%; bottom: 40px; transform: translateX(-50%); font-size: 15px; font-weight: 600;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
         }
-        #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 3.5s; }
-        @keyframes fadein { from { bottom: 0; opacity: 0; } to { bottom: 30px; opacity: 1; } }
-        @keyframes fadeout { from { bottom: 30px; opacity: 1; } to { bottom: 0; opacity: 0; } }
+        #toast.show { visibility: visible; animation: popIn 0.5s, fadeout 0.5s 3.5s; }
+        @keyframes popIn { 0% { bottom: 0; opacity: 0; transform: translateX(-50%) scale(0.8); } 100% { bottom: 40px; opacity: 1; transform: translateX(-50%) scale(1); } }
+        @keyframes fadeout { from { bottom: 40px; opacity: 1; } to { bottom: 0; opacity: 0; } }
     </style>
 </head>
-<body class="text-gray-800 pb-10">
+<body class="text-white pb-12 bg-gradient-to-br from-indigo-950 via-slate-900 to-black min-h-screen">
 
     <!-- Header Section -->
-    <header class="text-center py-6 bg-white shadow-sm">
-        <img src="sricellworldlogo.webp" alt="Sri Cell World Logo" class="mx-auto h-24 object-contain mb-2">
-        <h1 class="text-2xl font-bold text-blue-900">Sri Cell World</h1>
-        <p class="text-gray-600 font-medium">Prop: Golla Satish Kumar</p>
+    <header class="text-center pt-10 pb-6 px-4">
+        <!-- Enlarged Logo in a premium white capsule -->
+        <div class="bg-white p-4 rounded-3xl inline-block shadow-[0_0_30px_rgba(59,130,246,0.3)] mb-4">
+            <img src="sricellworldlogo.webp" alt="Sri Cell World Logo" class="mx-auto h-32 md:h-40 object-contain">
+        </div>
+        <h1 class="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 tracking-wide mt-2">
+            SRI CELL WORLD
+        </h1>
+        <p class="text-gray-400 font-medium tracking-widest uppercase text-sm mt-2 flex items-center justify-center gap-2">
+            <i class="fa-solid fa-user-tie text-cyan-500"></i> Prop: Golla Satish Kumar
+        </p>
     </header>
 
-    <main class="max-w-md mx-auto mt-6 px-4">
+    <main class="max-w-md mx-auto px-5">
         
-        <!-- Image Slider -->
-        <div class="slider-container bg-gray-200">
-            <img src="IMG_0695.webp" class="slide active" alt="Slide 1">
-            <img src="IMG_0665.webp" class="slide" alt="Slide 2">
-            <img src="IMG_0574.webp" class="slide" alt="Slide 3">
-            <img src="IMG_0738.webp" class="slide" alt="Slide 4">
-            <img src="IMG_0232.webp" class="slide" alt="Slide 5">
-            <img src="IMG_0611.webp" class="slide" alt="Slide 6">
+        <!-- Image Slider with glowing border -->
+        <div class="relative rounded-3xl p-1 bg-gradient-to-r from-cyan-500 to-blue-600 shadow-[0_0_20px_rgba(6,182,212,0.4)] mb-8">
+            <div class="slider-container bg-gray-900">
+                <img src="IMG_0695.webp" class="slide active" alt="Slide 1">
+                <img src="IMG_0665.webp" class="slide" alt="Slide 2">
+                <img src="IMG_0574.webp" class="slide" alt="Slide 3">
+                <img src="IMG_0738.webp" class="slide" alt="Slide 4">
+                <img src="IMG_0232.webp" class="slide" alt="Slide 5">
+                <img src="IMG_0611.webp" class="slide" alt="Slide 6">
+            </div>
         </div>
 
-        <!-- Contact Section -->
-        <div class="mt-8 bg-white p-6 rounded-xl shadow-md text-center">
-            <h2 class="text-xl font-semibold mb-4">Contact Us</h2>
-            <button onclick="toggleContacts()" class="bg-blue-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-blue-700 transition w-full">
+        <!-- Contact Section (Glassmorphism) -->
+        <div class="glass-card p-6 rounded-3xl shadow-xl text-center mb-6">
+            <h2 class="text-xl font-semibold mb-4 text-gray-100 flex items-center justify-center gap-2">
+                <i class="fa-solid fa-headset text-cyan-400"></i> Get In Touch
+            </h2>
+            <button onclick="toggleContacts()" class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-3 rounded-2xl font-bold shadow-lg hover:shadow-cyan-500/50 hover:scale-[1.02] transition-all duration-300">
                 Tap to View Contact Numbers
             </button>
             
-            <div id="contact-list" class="hidden-contact mt-4 space-y-4">
+            <div id="contact-list" class="hidden-contact mt-5 space-y-3">
                 <!-- Number 1 -->
-                <div class="flex items-center justify-between bg-gray-50 p-3 rounded-lg border border-gray-100">
-                    <span class="font-bold text-lg">7893332635</span>
-                    <div class="space-x-3">
-                        <a href="tel:7893332635" class="text-blue-500 text-xl"><i class="fa-solid fa-phone"></i></a>
-                        <a href="https://wa.me/917893332635" target="_blank" class="text-green-500 text-xl"><i class="fa-brands fa-whatsapp"></i></a>
+                <div class="flex items-center justify-between bg-white/10 p-4 rounded-2xl border border-white/5 hover:bg-white/20 transition">
+                    <span class="font-bold text-xl tracking-wider">7893332635</span>
+                    <div class="space-x-4">
+                        <a href="tel:7893332635" class="bg-blue-500/20 p-3 rounded-full text-blue-400 hover:text-white hover:bg-blue-500 transition shadow-lg"><i class="fa-solid fa-phone"></i></a>
+                        <a href="https://wa.me/917893332635" target="_blank" class="bg-green-500/20 p-3 rounded-full text-green-400 hover:text-white hover:bg-green-500 transition shadow-lg"><i class="fa-brands fa-whatsapp text-lg"></i></a>
                     </div>
                 </div>
                 <!-- Number 2 -->
-                <div class="flex items-center justify-between bg-gray-50 p-3 rounded-lg border border-gray-100">
-                    <span class="font-bold text-lg">9849836553</span>
-                    <div class="space-x-3">
-                        <a href="tel:9849836553" class="text-blue-500 text-xl"><i class="fa-solid fa-phone"></i></a>
-                        <a href="https://wa.me/919849836553" target="_blank" class="text-green-500 text-xl"><i class="fa-brands fa-whatsapp"></i></a>
+                <div class="flex items-center justify-between bg-white/10 p-4 rounded-2xl border border-white/5 hover:bg-white/20 transition">
+                    <span class="font-bold text-xl tracking-wider">9849836553</span>
+                    <div class="space-x-4">
+                        <a href="tel:9849836553" class="bg-blue-500/20 p-3 rounded-full text-blue-400 hover:text-white hover:bg-blue-500 transition shadow-lg"><i class="fa-solid fa-phone"></i></a>
+                        <a href="https://wa.me/919849836553" target="_blank" class="bg-green-500/20 p-3 rounded-full text-green-400 hover:text-white hover:bg-green-500 transition shadow-lg"><i class="fa-brands fa-whatsapp text-lg"></i></a>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Links & Locations -->
-        <div class="mt-6 grid grid-cols-1 gap-4">
-            <a href="https://www.instagram.com/sricellword_khammam?stkn=MWYxeDRpcDJmMWxqMQ%3D%3D&utm_source=qr" target="_blank" class="flex items-center justify-center bg-gradient-to-r from-purple-500 to-pink-500 text-white p-3 rounded-xl shadow hover:opacity-90 transition">
-                <i class="fa-brands fa-instagram text-2xl mr-2"></i> Follow on Instagram
+        <div class="grid grid-cols-1 gap-4 mb-8">
+            <a href="https://www.instagram.com/sricellword_khammam?stkn=MWYxeDRpcDJmMWxqMQ%3D%3D&utm_source=qr" target="_blank" class="group flex items-center justify-center bg-gradient-to-r from-[#f09433] via-[#dc2743] to-[#bc1888] text-white p-4 rounded-2xl shadow-lg hover:shadow-pink-500/50 hover:scale-[1.02] transition-all duration-300 font-semibold">
+                <i class="fa-brands fa-instagram text-2xl mr-3 group-hover:animate-bounce"></i> Follow on Instagram
             </a>
-            <a href="https://www.google.com/maps?cid=14234551940312346261" target="_blank" class="flex items-center justify-center bg-white text-blue-700 border border-blue-200 p-3 rounded-xl shadow hover:bg-gray-50 transition">
-                <i class="fa-solid fa-map-location-dot text-xl mr-2"></i> Sri Cell World - Bus Stand Location
+            
+            <a href="https://www.google.com/maps?cid=14234551940312346261" target="_blank" class="flex items-center justify-center glass-card text-blue-300 p-4 rounded-2xl shadow-lg hover:bg-blue-900/40 hover:scale-[1.02] transition-all duration-300 font-semibold">
+                <i class="fa-solid fa-location-dot text-xl mr-3 text-blue-500"></i> Sri Cell World (Bus Stand)
             </a>
-            <a href="https://www.google.com/maps?cid=15804449356547134718" target="_blank" class="flex items-center justify-center bg-white text-orange-600 border border-orange-200 p-3 rounded-xl shadow hover:bg-gray-50 transition">
-                <i class="fa-solid fa-store text-xl mr-2"></i> Mi Store - Gandhi Chowk Location
+            
+            <a href="https://www.google.com/maps?cid=15804449356547134718" target="_blank" class="flex items-center justify-center glass-card text-orange-300 p-4 rounded-2xl shadow-lg hover:bg-orange-900/40 hover:scale-[1.02] transition-all duration-300 font-semibold">
+                <i class="fa-solid fa-store text-xl mr-3 text-orange-500"></i> Mi Store (Gandhi Chowk)
             </a>
         </div>
 
         <!-- Review Section -->
-        <div class="mt-8 bg-blue-50 p-6 rounded-xl shadow-md border border-blue-100 text-center">
-            <h2 class="text-xl font-bold mb-2">Leave a 5-Star Review! 🌟</h2>
-            <p class="text-sm text-gray-600 mb-4">Click below to auto-copy a positive comment and go to the review page.</p>
-            
-            <div class="space-y-3">
-                <button onclick="leaveReview('https://search.google.com/local/reviews?placeid=ChIJuwdnQvZZNDoRlS4qY5JJi8U&q=Sri+cell+world,+Municipal+Office+Road,+Bus+Stand,+Lenin+Nagar,+Braman+Bazar,+Balaji+Nagar,+Khammam,+Telangana&authuser=0&hl=en&gl=IN')" class="w-full bg-yellow-400 text-gray-900 font-bold py-3 px-4 rounded-xl shadow hover:bg-yellow-500 transition flex items-center justify-center">
-                    <i class="fa-brands fa-google mr-2"></i> Review Sri Cell World
-                </button>
-                <button onclick="leaveReview('https://search.google.com/local/reviews?placeid=ChIJny00vQZZNDoR_pSkR_SuVNs&q=Mi+Store,+Gandhi+Chowk,+Khammam&authuser=0&hl=en&gl=IN')" class="w-full bg-orange-400 text-white font-bold py-3 px-4 rounded-xl shadow hover:bg-orange-500 transition flex items-center justify-center">
-                    <i class="fa-brands fa-google mr-2"></i> Review Mi Store
-                </button>
+        <div class="relative p-1 rounded-3xl bg-gradient-to-br from-yellow-400 to-orange-500 shadow-[0_0_25px_rgba(234,179,8,0.3)] mb-10">
+            <div class="bg-gray-900 p-6 rounded-3xl text-center h-full">
+                <h2 class="text-2xl font-bold mb-2 text-yellow-400">Leave a 5-Star Review! <i class="fa-solid fa-star text-yellow-500"></i></h2>
+                <p class="text-sm text-gray-400 mb-6">Tap below to auto-copy a 5-star comment and jump to the review page.</p>
+                
+                <div class="space-y-4">
+                    <button onclick="leaveReview('https://search.google.com/local/reviews?placeid=ChIJuwdnQvZZNDoRlS4qY5JJi8U&q=Sri+cell+world,+Municipal+Office+Road,+Bus+Stand,+Lenin+Nagar,+Braman+Bazar,+Balaji+Nagar,+Khammam,+Telangana&authuser=0&hl=en&gl=IN')" class="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 text-gray-900 font-extrabold text-lg py-3 px-4 rounded-2xl shadow-lg hover:shadow-yellow-500/50 hover:scale-[1.02] transition-all duration-300 flex items-center justify-center">
+                        <i class="fa-brands fa-google mr-2 bg-white rounded-full p-1 text-sm"></i> Sri Cell World
+                    </button>
+                    
+                    <button onclick="leaveReview('https://search.google.com/local/reviews?placeid=ChIJny00vQZZNDoR_pSkR_SuVNs&q=Mi+Store,+Gandhi+Chowk,+Khammam&authuser=0&hl=en&gl=IN')" class="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold text-lg py-3 px-4 rounded-2xl shadow-lg hover:shadow-orange-500/50 hover:scale-[1.02] transition-all duration-300 flex items-center justify-center">
+                        <i class="fa-brands fa-google mr-2 bg-white text-orange-500 rounded-full p-1 text-sm"></i> Mi Store
+                    </button>
+                </div>
             </div>
         </div>
 
         <!-- Developer Footer -->
-        <footer class="mt-12 text-center">
-            <p class="text-xs text-gray-400 mb-2">Developed by</p>
-            <a href="https://catb12345612-ai.github.io/Syed-Zeeshaan-Ali-High-Fledged-Engineering-And-Digital-Tech-Solutions-Site/" target="_blank" class="inline-block hover:scale-105 transition transform duration-300">
-                <img src="dev-logo.png (1).png" alt="Developer Logo" class="h-20 mx-auto rounded-full shadow-lg border-2 border-gray-300">
+        <footer class="mt-14 text-center pb-8 border-t border-white/10 pt-8">
+            <p class="text-xs text-gray-500 tracking-widest uppercase mb-4">Digitally Crafted By</p>
+            <a href="https://catb12345612-ai.github.io/Syed-Zeeshaan-Ali-High-Fledged-Engineering-And-Digital-Tech-Solutions-Site/" target="_blank" class="inline-block hover:scale-110 transition transform duration-500">
+                <img src="dev-logo.png (1).png" alt="Developer Logo" class="h-24 w-24 mx-auto rounded-full shadow-[0_0_20px_rgba(255,255,255,0.2)] border-2 border-gray-700 hover:border-cyan-400 hover:shadow-[0_0_30px_rgba(6,182,212,0.6)] object-cover">
             </a>
         </footer>
     </main>
 
     <!-- Toast Notification -->
-    <div id="toast">Comment copied! Please paste it in the Google Review box.</div>
+    <div id="toast"><i class="fa-solid fa-circle-check mr-2 text-green-300"></i> Awesome review copied! Paste it in Google.</div>
 
     <script>
         // --- Slider Logic ---
@@ -132,11 +166,12 @@
             const contactList = document.getElementById('contact-list');
             if (contactList.style.display === 'none' || contactList.style.display === '') {
                 contactList.style.display = 'block';
+                // Small animation effect
+                contactList.animate([{opacity: 0, transform: 'translateY(-10px)'}, {opacity: 1, transform: 'translateY(0)'}], {duration: 300, fill: 'forwards'});
             } else {
                 contactList.style.display = 'none';
             }
         }
-
 
         // --- Random Review Generator Logic ---
         const reviews = [
@@ -149,7 +184,60 @@
             "Great ambiance and they explain all features patiently. Must visit for mobile shopping.",
             "The best place to buy mobile accessories and phones. Guaranteed best price in the market.",
             "Awesome experience purchasing my new mobile. Thank you Sri Cell World!",
-            "Excellent support even after sales. Very happy with my purchase."
+            "Excellent support even after sales. Very happy with my purchase.",
+            "Great customer service, they've got very friendly staff.",
+            "Great customer service, they've got very friendly staff.",
+            "Highly recommended, it's the best place for latest smartphones.",
+           "Great customer service, they've got very friendly staff.",
+           "Highly recommended, it's the best place for latest smartphones.",
+           "Amazing discounts, you'll find the best prices in the city.",
+           "The staff helped me, they'd transfer all my data easily.",
+           "Very fast service, there's a great collection of genuine accessories.",
+          "They have a massive collection, you're going to love their phone cases.",
+          "The best place to buy, they're selling authentic Apple products.",
+          "Excellent repair service, it's done in just one hour.",
+          "Super helpful staff, here's a very clean store environment.",
+          "I got a free screen protector, it's perfect for my new phone.",
+          "They offer the best deals, you'll get great trade-in value.",
+         "Very satisfied with my purchase, can't complain about the warranty.",
+         "The staff is highly knowledgeable, they're experts in phone specs.",
+          "Smooth and hassle-free, there's easy financing options available.",
+         "I found the exact model, weren't they the only ones with stock.",
+         "Great post-purchase support, they'll help with any troubleshooting.",
+        "They always have the latest models, they're in stock on launch day.",
+        "They offer excellent exchange offers, don't miss their Android deals.",
+         "The store has an amazing vibe, it's got helpful customer care.",
+         "Quick and affordable, that's their screen replacement service.",
+"I am very happy, there're so many budget-friendly options available.",
+"Professional behavior, you'll love the polite staff members.",
+"Best mobile shopping experience, I've ever had in years.",
+"They provided a detailed explanation, it'll help you choose.",
+"The store is located well, it's in a very convenient place.",
+"I received an authentic invoice, there's an official warranty card.",
+"They have a great variety, you'll find wireless earbuds and headphones.",
+"Excellent response time, they're quick on their customer helpline.",
+"They helped me, now's my new device completely set up.",
+"The pricing here is much cheaper, it's better than online stores.",
+"They offer genuine spare parts, they've got them for all major brands.",
+"I love the cashback offers, they're always available at this store.",
+"Very transparent pricing, there's no hidden charges at all.",
+"The technician fixed it, he's repaired my water-damaged phone perfectly.",
+"Highly professional, they're a trustworthy mobile dealer.",
+"They have premium flagship phones, it's great to test them out on display.",
+"Super quick billing, you'll love the fast checkout process.",
+"The store layout is excellent, it's very easy to navigate.",
+"They gave me an extra discount, I'm so happy with the accessory prices.",
+           "I will definitely visit again, it's time for my next upgrade.",
+       "Wonderful experience, they've got very patient sales representatives.",
+       "They treat every customer well, you're going to receive great respect.",
+          "The screen guard installation was perfect, there's no bubbles at all.",
+      "They have all color options, they're available for the new models.",
+       "Highly reliable shop, they've got pre-owned certified devices.",
+         "The delivery of my ordered phone, it's exceptionally fast.",
+         "They explained everything, I'm clear on the insurance policy now.",
+           "Outstanding customer support, they're helpful even after sales.",
+        "Best deals on smartwatches, you'll love the fitness bands too.",
+           "I am completely satisfied, they've earned a five-star review for their polite behavior."
         ];
 
         function showToast() {
@@ -159,19 +247,15 @@
         }
 
         function leaveReview(url) {
-            // Select random comment
             const randomComment = reviews[Math.floor(Math.random() * reviews.length)];
             
-            // Copy to clipboard
             navigator.clipboard.writeText(randomComment).then(() => {
                 showToast();
-                // Wait a tiny bit for the user to see the toast, then redirect
                 setTimeout(() => {
                     window.open(url, '_blank');
                 }, 1500);
             }).catch(err => {
                 console.error('Failed to copy: ', err);
-                // Fallback redirect if clipboard fails
                 window.open(url, '_blank');
             });
         }
