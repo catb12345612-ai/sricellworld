@@ -75,6 +75,26 @@
         /* Slider */
         .slide{ transition:opacity 1.3s ease; opacity:0; position:absolute; inset:0; object-fit:cover; }
         .slide.active{ opacity:1; z-index:10; }
+
+        /* --- NEW: RGB neon border on the sliding images --- */
+        @keyframes neonBorderCycle {
+            0%   { border-color:#ff003c; box-shadow: 0 0 10px 2px #ff003c, inset 0 0 14px 1px #ff003c; }
+            16%  { border-color:#ff8c00; box-shadow: 0 0 10px 2px #ff8c00, inset 0 0 14px 1px #ff8c00; }
+            33%  { border-color:#fff400; box-shadow: 0 0 10px 2px #fff400, inset 0 0 14px 1px #fff400; }
+            50%  { border-color:#39ff14; box-shadow: 0 0 10px 2px #39ff14, inset 0 0 14px 1px #39ff14; }
+            66%  { border-color:#00eaff; box-shadow: 0 0 10px 2px #00eaff, inset 0 0 14px 1px #00eaff; }
+            83%  { border-color:#7c5cff; box-shadow: 0 0 10px 2px #7c5cff, inset 0 0 14px 1px #7c5cff; }
+            100% { border-color:#ff003c; box-shadow: 0 0 10px 2px #ff003c, inset 0 0 14px 1px #ff003c; }
+        }
+        .slide{
+            border: 3px solid #ff003c;
+            animation: neonBorderCycle 6s linear infinite;
+        }
+        @media (prefers-reduced-motion:reduce){
+            .slide{ animation:none !important; border-color:#7c5cff; }
+        }
+        /* --- END NEW --- */
+
         .slider-container{ position:relative; width:100%; height:420px; overflow:hidden; clip-path: polygon(0 0, 100% 0, 100% 94%, 0 100%); background:#0a0a0a; border-radius:0.4rem; }
         .slider-dots{ position:absolute; bottom:20px; left:24px; z-index:20; display:flex; gap:7px; }
         .slider-dot{ width:18px; height:3px; background:rgba(255,255,255,0.3); transition:all .5s ease; }
