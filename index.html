@@ -33,18 +33,18 @@
         }
         h1,h2,.display{ font-family:'Space Grotesk',sans-serif; }
 
-        /* Ambient bokeh drift — premium light VFX layer */
+        /* Ambient bokeh drift — now transform-based (translate) instead of background-position for smooth GPU compositing */
         body::before{
-            content:''; position:fixed; inset:0; z-index:-3; pointer-events:none;
+            content:''; position:fixed; top:-20%; left:-20%; width:140%; height:140%; z-index:-3; pointer-events:none;
             background:
                 radial-gradient(circle at 15% 20%, rgba(197,160,89,0.10), transparent 35%),
                 radial-gradient(circle at 85% 75%, rgba(197,160,89,0.08), transparent 40%);
-            background-size:200% 200%;
-            animation: ambientDrift 18s ease-in-out infinite;
+            animation: ambientDrift 20s ease-in-out infinite;
+            will-change: transform;
         }
         @keyframes ambientDrift{
-            0%,100%{ background-position:0% 0%, 100% 100%; }
-            50%{ background-position:100% 50%, 0% 50%; }
+            0%,100%{ transform: translate(0,0); }
+            50%{ transform: translate(4%, -4%); }
         }
 
         /* Crossfading photo background — changes every 5 seconds, kept extremely subtle behind the white mesh */
@@ -70,7 +70,6 @@
         .reveal{ clip-path: inset(0 0 100% 0); opacity:0; transition: clip-path .9s cubic-bezier(.16,1,.3,1), opacity .6s ease; }
         .reveal.in{ clip-path: inset(0 0 0% 0); opacity:1; }
 
-        /* Premium gold pulsing glow — used on logo and dev avatar */
         @keyframes imgGlow{
             0%,100%{ filter: drop-shadow(0 0 10px rgba(197,160,89,0.35)) drop-shadow(0 0 22px rgba(197,160,89,0.15)); }
             50%{ filter: drop-shadow(0 0 18px rgba(197,160,89,0.55)) drop-shadow(0 0 34px rgba(197,160,89,0.28)); }
@@ -101,11 +100,41 @@
             .ticker, .glow-img, .glow-box, .text-glow{ animation:none !important; }
         }
 
+        /* --- NEW: Circular logo with smooth rotating multi-colour neon ring --- */
+        .logo-ring{
+            position:relative;
+            width:132px; height:132px;
+            border-radius:50%;
+            display:flex; align-items:center; justify-content:center;
+            box-shadow: 0 0 20px rgba(124,92,255,0.3), 0 0 34px rgba(212,255,63,0.18), 0 12px 30px rgba(0,0,0,0.08);
+        }
+        .logo-ring::before{
+            content:'';
+            position:absolute; inset:0;
+            border-radius:50%;
+            background: conic-gradient(from 0deg, #ff003c, #ff8c00, #fff400, #39ff14, #00eaff, #7c5cff, #ff003c);
+            animation: ringRotate 5s linear infinite;
+            will-change: transform;
+        }
+        @keyframes ringRotate{ to{ transform: rotate(360deg); } }
+        .logo-img{
+            position:relative; z-index:1;
+            width:calc(100% - 10px); height:calc(100% - 10px);
+            border-radius:50%;
+            object-fit:cover;
+            background:#fff;
+            border:2px solid #fff;
+        }
+        @media (prefers-reduced-motion:reduce){
+            .logo-ring::before{ animation:none !important; }
+        }
+        /* --- END NEW --- */
+
         /* Slider */
         .slide{ transition:opacity 1.3s ease; opacity:0; position:absolute; inset:0; object-fit:cover; }
         .slide.active{ opacity:1; z-index:10; }
 
-        /* Elegant gold border pulse — replaces neon with a refined single-hue glow */
+        /* Gold border pulse — now paused on inactive slides so only the visible one animates (fixes lag) */
         @keyframes goldBorderPulse{
             0%,100%{ border-color: rgba(197,160,89,0.45); box-shadow: 0 0 12px 2px rgba(197,160,89,0.22), inset 0 0 16px rgba(197,160,89,0.10); }
             50%{ border-color: rgba(240,223,176,0.9); box-shadow: 0 0 22px 4px rgba(197,160,89,0.4), inset 0 0 22px rgba(197,160,89,0.2); }
@@ -113,12 +142,15 @@
         .slide{
             border: 2px solid rgba(197,160,89,0.5);
             animation: goldBorderPulse 3.2s ease-in-out infinite;
+            animation-play-state: paused;
+        }
+        .slide.active{
+            animation-play-state: running;
         }
         @media (prefers-reduced-motion:reduce){
             .slide{ animation:none !important; border-color:rgba(197,160,89,0.5); }
         }
 
-        /* Premium gold shimmer for the proprietor name — refined single-tone version */
         @keyframes propNameGlow{
             0%,100%{ text-shadow: 0 0 6px rgba(197,160,89,0.4), 0 0 14px rgba(197,160,89,0.2); color:#b5893f; }
             50%{ text-shadow: 0 0 12px rgba(197,160,89,0.65), 0 0 26px rgba(197,160,89,0.35); color:#c5a059; }
@@ -137,17 +169,18 @@
             border-radius:1.25rem; background:#f4f1ea;
             box-shadow: 0 25px 55px rgba(0,0,0,0.08);
         }
-        /* Sheen sweep — a soft light streak that glides across the slider */
+        /* Sheen sweep — now transform-based (translateX) instead of background-position for smoother compositing */
         .slider-container::after{
-            content:''; position:absolute; inset:0; z-index:15; pointer-events:none;
-            background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.55) 48%, transparent 66%);
-            background-size:250% 250%;
+            content:''; position:absolute; top:0; left:0; width:45%; height:100%; z-index:15; pointer-events:none;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.55), transparent);
+            transform: translateX(-140%) skewX(-15deg);
             animation: sheenSweep 5s ease-in-out infinite;
             mix-blend-mode: overlay;
+            will-change: transform;
         }
         @keyframes sheenSweep{
-            0%{ background-position:200% 0%; }
-            100%{ background-position:-50% 0%; }
+            0%{ transform: translateX(-140%) skewX(-15deg); }
+            100%{ transform: translateX(340%) skewX(-15deg); }
         }
         @media (prefers-reduced-motion:reduce){
             .slider-container::after{ animation:none !important; }
@@ -199,14 +232,17 @@
             transition: transform .2s ease, box-shadow .3s ease;
             position:relative; overflow:hidden;
         }
+        /* Shine sweep — now transform-based (translateX) instead of animating "left" (fixes layout-thrash lag) */
         .btn-lime::after{
-            content:''; position:absolute; top:0; left:-60%; width:40%; height:100%;
+            content:''; position:absolute; top:0; left:0; width:40%; height:100%;
             background:linear-gradient(120deg, transparent, rgba(255,255,255,0.6), transparent);
-            transform:skewX(-20deg);
+            transform: translateX(-160%) skewX(-20deg);
             animation: btnShine 3.5s ease-in-out infinite;
+            will-change: transform;
         }
         @keyframes btnShine{
-            0%{ left:-60%; } 50%{ left:130%; } 100%{ left:130%; }
+            0%{ transform: translateX(-160%) skewX(-20deg); }
+            60%,100%{ transform: translateX(280%) skewX(-20deg); }
         }
         .btn-lime:hover{ transform:translateY(-2px); box-shadow:0 14px 34px rgba(197,160,89,0.45); }
         .btn-lime:active{ transform:translateY(0) scale(0.98); }
@@ -260,15 +296,17 @@
     </div>
 
     <!-- Header -->
-    <header class="text-center pt-16 pb-10 px-6 relative z-10">
-        <img src="sricellworldlogo.webp" alt="Sri Cell World Logo" class="glow-img mx-auto h-28 md:h-32 object-contain mb-4">
+    <header class="text-center pt-10 pb-6 px-6 relative z-10">
+        <div class="logo-ring mx-auto mb-4">
+            <img src="sricellworldlogo.webp" alt="Sri Cell World Logo" class="logo-img">
+        </div>
         <p class="prop-glow text-[var(--muted)] text-xs font-medium tracking-[0.2em] uppercase">Prop &mdash; Golla Satish Kumar</p>
     </header>
 
     <main class="max-w-md mx-auto px-5 relative z-10">
 
         <!-- Slider -->
-        <div class="mb-8">
+        <div class="mb-6">
             <div class="slider-container glow-box">
                 <img src="IMG_0695.webp" class="slide active" alt="Slide 1">
                 <img src="IMG_0665.webp" class="slide" alt="Slide 2">
@@ -281,8 +319,8 @@
         </div>
 
         <!-- Contact -->
-        <section class="mb-8">
-            <div class="reveal mb-6">
+        <section class="mb-6">
+            <div class="reveal mb-4">
                 <span class="zone-tag mb-4"><span>01 &mdash; SUPPORT</span></span>
                 <h2 class="display text-glow text-3xl font-bold mt-4 leading-tight">Talk to a human,<br>not a bot.</h2>
             </div>
@@ -293,7 +331,7 @@
                     <i class="fa-solid fa-phone-volume"></i> View Connect Details
                 </button>
 
-                <div id="contact-list" class="hidden-contact relative z-10 mt-6 space-y-3 text-left">
+                <div id="contact-list" class="hidden-contact relative z-10 mt-4 space-y-3 text-left">
                     <div class="flex items-center justify-between bg-black/40 p-4 border border-white/5">
                         <span class="font-medium text-xl tracking-wider text-gray-200">7893332635</span>
                         <div class="flex gap-2">
@@ -313,8 +351,8 @@
         </section>
 
         <!-- Links & Locations -->
-        <section class="mb-8">
-            <div class="reveal mb-6">
+        <section class="mb-6">
+            <div class="reveal mb-4">
                 <span class="zone-tag"><span>02 &mdash; FIND US</span></span>
             </div>
             <div class="space-y-3">
@@ -334,13 +372,13 @@
         </section>
 
         <!-- Review Section -->
-        <section class="mb-8">
-            <div class="reveal mb-6">
+        <section class="mb-6">
+            <div class="reveal mb-4">
                 <span class="zone-tag"><span>03 &mdash; FEEDBACK</span></span>
                 <h2 class="display text-glow text-3xl font-bold mt-4 leading-tight">Loved it? Tell<br>the internet.</h2>
             </div>
             <div class="card p-7 text-center">
-                <p class="text-sm text-[var(--muted)] mb-7 leading-relaxed">Tap below &mdash; we copy a 5-star review template and open Google for you.</p>
+                <p class="text-sm text-[var(--muted)] mb-5 leading-relaxed">Tap below &mdash; we copy a 5-star review template and open Google for you.</p>
                 <div class="space-y-3 relative z-10">
                     <button onclick="leaveReview('https://search.google.com/local/reviews?placeid=ChIJuwdnQvZZNDoRlS4qY5JJi8U&q=Sri+cell+world,+Municipal+Office+Road,+Bus+Stand,+Lenin+Nagar,+Braman+Bazar,+Balaji+Nagar,+Khammam,+Telangana&authuser=0&hl=en&gl=IN')" class="btn-lime w-full py-3.5 text-base flex items-center justify-center gap-3">
                         <img src="mobile-store-logo-design.avif" alt="Google" class="w-5 h-5"> Review Sri Cell World
@@ -353,8 +391,8 @@
         </section>
 
         <!-- Footer -->
-        <footer class="mt-16 text-center pb-8 border-t border-[var(--line)] pt-10">
-            <p class="text-xs text-[var(--muted)] tracking-[0.2em] uppercase mb-6">Engineered By</p>
+        <footer class="mt-8 text-center pb-8 border-t border-[var(--line)] pt-6">
+            <p class="text-xs text-[var(--muted)] tracking-[0.2em] uppercase mb-4">Engineered By</p>
             <a href="https://catb12345612-ai.github.io/Syed-Zeeshaan-Ali-High-Fledged-Engineering-And-Digital-Tech-Solutions-Site/" target="_blank" class="inline-block hover:-translate-y-1 transition-transform duration-500 group">
                 <img src="dev-logo.png (1).png" alt="Developer Logo" class="glow-img h-20 w-20 mx-auto rounded-full border border-white/10 object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
             </a>
