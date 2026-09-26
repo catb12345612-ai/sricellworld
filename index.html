@@ -95,6 +95,22 @@
         }
         /* --- END NEW --- */
 
+        /* --- NEW: Premium neon glow for proprietor name --- */
+        @keyframes propNameGlow{
+            0%,100%{ text-shadow: 0 0 6px rgba(255,215,0,0.55), 0 0 14px rgba(255,215,0,0.3), 0 0 24px rgba(255,105,180,0.2); color:#ffd700; }
+            33%{ text-shadow: 0 0 10px rgba(0,229,255,0.6), 0 0 20px rgba(0,229,255,0.35), 0 0 30px rgba(124,92,255,0.25); color:#5be7ff; }
+            66%{ text-shadow: 0 0 10px rgba(255,105,180,0.6), 0 0 20px rgba(255,105,180,0.35), 0 0 30px rgba(255,215,0,0.25); color:#ff8fd0; }
+        }
+        .prop-glow{
+            animation: propNameGlow 3.4s ease-in-out infinite;
+            letter-spacing:0.22em;
+            font-weight:700;
+        }
+        @media (prefers-reduced-motion:reduce){
+            .prop-glow{ animation:none !important; color:#ffd700; }
+        }
+        /* --- END NEW --- */
+
         .slider-container{ position:relative; width:100%; height:420px; overflow:hidden; clip-path: polygon(0 0, 100% 0, 100% 94%, 0 100%); background:#0a0a0a; border-radius:0.4rem; }
         .slider-dots{ position:absolute; bottom:20px; left:24px; z-index:20; display:flex; gap:7px; }
         .slider-dot{ width:18px; height:3px; background:rgba(255,255,255,0.3); transition:all .5s ease; }
@@ -177,13 +193,13 @@
     <!-- Header -->
     <header class="text-center pt-16 pb-10 px-6 relative z-10">
         <img src="sricellworldlogo.webp" alt="Sri Cell World Logo" class="glow-img mx-auto h-28 md:h-32 object-contain mb-4">
-        <p class="text-[var(--muted)] text-xs font-medium tracking-[0.2em] uppercase">Prop &mdash; Golla Satish Kumar</p>
+        <p class="prop-glow text-[var(--muted)] text-xs font-medium tracking-[0.2em] uppercase">Prop &mdash; Golla Satish Kumar</p>
     </header>
 
     <main class="max-w-md mx-auto px-5 relative z-10">
 
         <!-- Slider -->
-        <div class="mb-14">
+        <div class="mb-8">
             <div class="slider-container glow-box">
                 <img src="IMG_0695.webp" class="slide active" alt="Slide 1">
                 <img src="IMG_0665.webp" class="slide" alt="Slide 2">
@@ -196,7 +212,7 @@
         </div>
 
         <!-- Contact -->
-        <section class="mb-14">
+        <section class="mb-8">
             <div class="reveal mb-6">
                 <span class="zone-tag mb-4"><span>01 &mdash; SUPPORT</span></span>
                 <h2 class="display text-glow text-3xl font-bold mt-4 leading-tight">Talk to a human,<br>not a bot.</h2>
@@ -228,7 +244,7 @@
         </section>
 
         <!-- Links & Locations -->
-        <section class="mb-14">
+        <section class="mb-8">
             <div class="reveal mb-6">
                 <span class="zone-tag"><span>02 &mdash; FIND US</span></span>
             </div>
@@ -249,7 +265,7 @@
         </section>
 
         <!-- Review Section -->
-        <section class="mb-14">
+        <section class="mb-8">
             <div class="reveal mb-6">
                 <span class="zone-tag"><span>03 &mdash; FEEDBACK</span></span>
                 <h2 class="display text-glow text-3xl font-bold mt-4 leading-tight">Loved it? Tell<br>the internet.</h2>
